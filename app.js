@@ -1,4 +1,4 @@
-showNotes()
+showNotes();
 const addBtn = document.getElementById("addBtn");
 addBtn.addEventListener("click", function (e) {
 
@@ -13,8 +13,8 @@ addBtn.addEventListener("click", function (e) {
     notesObj.push(addTxt.value)
     localStorage.setItem("yournotes", JSON.stringify(notesObj));
     addTxt.value = "";
-    console.log(notesObj);
-    showNotes()
+    // console.log(notesObj);
+    showNotes();
 });
 
 function showNotes() {
@@ -33,7 +33,7 @@ function showNotes() {
         <form>
             <label for="fname">Note ${index + 1}</label><br>
             <textarea name="message"> ${element}</textarea><br>
-            <button type="button">Delete Note</button>
+            <button id="${index}" onclick="deleteNote(this.id)" type="button">Delete Note</button>
         </form>
     </div>
         
@@ -43,5 +43,22 @@ function showNotes() {
     let  notesElm = document.getElementById("notes");
     if(notesObj.length != 0) {
         notesElm.innerHTML = html;
+    }else{
+        notesElm.innerHTML = ""
     }
 }   
+
+function deleteNote(index){
+    // console.log("I am deleting", index);
+
+    let notes = localStorage.getItem("yournotes")
+    if (notes === null) {
+        notesObj = [];
+    } else {
+        notesObj = JSON.parse(notes);
+    }
+
+    notesObj.splice(index, 1);
+    localStorage.setItem("yournotes", JSON.stringify(notesObj));
+    showNotes();
+}
